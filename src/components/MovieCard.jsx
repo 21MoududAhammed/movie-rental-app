@@ -3,7 +3,9 @@ import { getImageUrl } from "../utils/cine-utils";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
 import { CartContext } from "../contexts";
-import tagImg from '../assets/tag.svg'
+import tagImg from "../assets/tag.svg";
+import { toast } from 'react-toastify';
+
 
 export default function MovieCard({ movie }) {
   const [isShow, setIsShow] = useState(false);
@@ -15,22 +17,27 @@ export default function MovieCard({ movie }) {
   }
 
   function handleAddToCart(event, movie) {
-   event.stopPropagation();
-   const isAvailable = cartData.find(item => item.id === movie.id);
-   if(isAvailable){
-    alert(`${movie.title} is added to cart before.`);
-   }else{
-    dispatch({
-      type: 'added',
-      item: movie,
-    })
-   }
-
+    event.stopPropagation();
+    const isAvailable = cartData.find((item) => item.id === movie.id);
+    if (isAvailable) {
+      toast.error(
+        `The movie ${movie.title} has been added to the cart already`);
+    } else {
+      dispatch({
+        type: "added",
+        item: movie,
+      });
+      toast.success(`Added  ${movie.title} to Cart !`);
+    }
   }
   return (
     <>
       {isShow && (
-        <MovieDetailsModal movie={movie} onCancelModal={handleCancelModal} onAddToCart={handleAddToCart}/>
+        <MovieDetailsModal
+          movie={movie}
+          onCancelModal={handleCancelModal}
+          onAddToCart={handleAddToCart}
+        />
       )}
       <figure className="p-4 border border-black/10 shadow-sm dark:border-white/10 rounded-xl">
         <a
@@ -50,16 +57,14 @@ export default function MovieCard({ movie }) {
             <div className="flex items-center space-x-1 mb-5">
               <Rating value={movie.rating} />
             </div>
-            <a
+            <button
               className="bg-primary rounded-lg py-2 px-5 flex items-center justify-center gap-2 text-[#171923] font-semibold text-sm"
               href="#"
-              onClick={(e) => handleAddToCart(e,movie)}
+              onClick={(e) => handleAddToCart(e, movie)}
             >
               <img src={tagImg} alt="" />
-              <span >
-                $ {movie.price} | Add to Cart
-              </span>
-            </a>
+              <span>$ {movie.price} | Add to Cart</span>
+            </button>
           </figcaption>
         </a>
       </figure>
