@@ -1,13 +1,20 @@
 import logo from "../assets/logo.svg";
 import ring from "../assets/ring.svg";
 import sun from "../assets/icons/sun.svg";
+import moon from "../assets/icons/moon.svg";
 import shoppingCart from "../assets/shopping-cart.svg";
 import Cart from "./Cart";
 import { useContext, useState } from "react";
-import { CartContext } from "../contexts";
+import { CartContext, ThemeContext } from "../contexts";
+
 export default function Header() {
   const [isShow, setIsShow] = useState(false);
   const { cartData } = useContext(CartContext);
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  function handleTheme() {
+    setTheme(!theme);
+  }
   //  to close the cart window
   function handleCancelCart() {
     setIsShow(!isShow);
@@ -35,8 +42,9 @@ export default function Header() {
             <a
               className="bg-primary/20 dark:bg-primary/[7%] rounded-lg backdrop-blur-[2px] p-1 inline-block"
               href="#"
+              onClick={() => handleTheme()}
             >
-              <img src={sun} width="24" height="24" alt="" />
+              <img src={theme ? sun : moon} width="24" height="24" alt="" />
             </a>
           </li>
           <li>
