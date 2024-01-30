@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import { ThemeContext } from "./contexts";
 
 export default function Page() {
-    const {theme, setTheme} = useContext(ThemeContext);
+    const {theme} = useContext(ThemeContext);
   return (
     <div className={`h-full w-full ${theme && 'dark'}`}>
       <Header />

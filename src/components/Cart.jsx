@@ -5,9 +5,13 @@ import remove from "../assets/delete.svg";
 import checkout from "../assets/icons/checkout.svg";
 
 export default function Cart({ onCancelCart }) {
-  const { cartData, setCartData } = useContext(CartContext);
+  const { cartData, dispatch } = useContext(CartContext);
   function handleDeleteItem(id) {
-    setCartData(cartData.filter((item) => item.id !== id));
+    dispatch({
+      type: 'deleted',
+      itemId: id,
+    })
+    
   }
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">

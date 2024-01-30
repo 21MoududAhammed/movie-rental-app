@@ -8,7 +8,7 @@ import tagImg from '../assets/tag.svg'
 export default function MovieCard({ movie }) {
   const [isShow, setIsShow] = useState(false);
 
-  const { cartData, setCartData } = useContext(CartContext);
+  const { cartData, dispatch } = useContext(CartContext);
 
   function handleCancelModal() {
     setIsShow(false);
@@ -20,7 +20,10 @@ export default function MovieCard({ movie }) {
    if(isAvailable){
     alert(`${movie.title} is added to cart before.`);
    }else{
-    setCartData([...cartData, movie]);
+    dispatch({
+      type: 'added',
+      item: movie,
+    })
    }
 
   }
